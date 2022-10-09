@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
 
     programArgs.ioMethod?.let { ioMethod -> task(ioMethod) }
     if (programArgs.isInputFileNotFound) printInputFileNotFound()
-    if (programArgs.isHelpSpecified || programArgs.ioMethod == null) printHelp()
+    if (programArgs.isHelpSpecified || (programArgs.ioMethod == null && !programArgs.isInputFileNotFound)) printHelp()
 }
 
 fun task(ioMethod: IO) {
