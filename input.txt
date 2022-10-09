@@ -1,0 +1,12 @@
+1+2
+3* 4
+2 / 2
+ф - 3
+stop
+
+This must return:
+3
+30
+1
+Bad input, line must match this pattern: r"[0-9]+ *[-+*/] *[0-9]+"
+Examples: "1+2"; "3* 4"; "2 / 2"
