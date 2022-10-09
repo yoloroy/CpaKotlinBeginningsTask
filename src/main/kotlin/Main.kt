@@ -1,24 +1,44 @@
-import io.ConsoleIO
-import io.FileIO
 import io.IO
 
 private const val INPUT_FILE_PATH = "input.txt"
 private const val OUTPUT_FILE_PATH = "output.txt"
-private const val HELP_MESSAGE = "" +
-        "Program accepts args:\n" +
-        " * -io <console | file>\n" +
-        " * -help"
+private const val HELP_MESSAGE = """Program accepts these args:
+ * -io <console | file>
+ * -help"""
+private const val STOP_WORD = "stop"
+private const val INPUT_PATTERN = "[0-9]+ *[-+*/] *[0-9]+"
+private const val BAD_INPUT = "Bad input, line must match this pattern: r\"$INPUT_PATTERN\"\nExamples: \"1+2\"; \"3* 4\"; \"2 / 2\""
+private val radixRange = 2..100
 
 fun main(args: Array<String>) {
     val programArgs = ProgramArgsExtractor(args, INPUT_FILE_PATH, OUTPUT_FILE_PATH).extract()
 
     programArgs.ioMethod?.let { ioMethod -> task(ioMethod) }
-    if (programArgs.ioMethod is FileIO && programArgs.isInputFileNotFound) printInputFileNotFound()
+    if (programArgs.isInputFileNotFound) printInputFileNotFound()
     if (programArgs.isHelpSpecified || programArgs.ioMethod == null) printHelp()
 }
 
 fun task(ioMethod: IO) {
-    
+    fun Int.presentInRadix(radix: Int) = toString(radix)
+
+    val pattern = INPUT_PATTERN.toRegex()
+
+    val radix = radixRange.random()
+    println("Your random radix for session: $radix")
+
+    while (true) {
+        val line = ioMethod.read()
+
+        if (line == STOP_WORD) return
+        if (!line.matches(pattern)) {
+            println(BAD_INPUT)
+            continue
+        }
+
+        val (a, b, operation) = Expression.parse(line)
+
+        println(operation(a, b).presentInRadix(radix))
+    }
 }
 
 fun printInputFileNotFound() = println("$INPUT_FILE_PATH not found")
