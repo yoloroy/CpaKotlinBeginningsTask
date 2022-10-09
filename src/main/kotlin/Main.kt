@@ -8,7 +8,7 @@ private const val HELP_MESSAGE = """Program accepts these args:
 private const val STOP_WORD = "stop"
 private const val INPUT_PATTERN = "[0-9]+ *[-+*/] *[0-9]+"
 private const val BAD_INPUT = "Bad input, line must match this pattern: r\"$INPUT_PATTERN\"\nExamples: \"1+2\"; \"3* 4\"; \"2 / 2\""
-private val radixRange = 2..100
+private val radixRange = 2..36
 
 fun main(args: Array<String>) {
     val programArgs = ProgramArgsExtractor(args, INPUT_FILE_PATH, OUTPUT_FILE_PATH).extract()
