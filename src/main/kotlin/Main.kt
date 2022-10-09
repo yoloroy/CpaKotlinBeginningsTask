@@ -1,4 +1,5 @@
 import io.IO
+import io.writeln
 
 private const val INPUT_FILE_PATH = "input.txt"
 private const val OUTPUT_FILE_PATH = "output.txt"
@@ -24,20 +25,20 @@ fun task(ioMethod: IO) {
     val pattern = INPUT_PATTERN.toRegex()
 
     val radix = radixRange.random()
-    println("Your random radix for session: $radix")
+    ioMethod.writeln("Your random radix for session: $radix")
 
     while (true) {
         val line = ioMethod.read()
 
         if (line == STOP_WORD) return
         if (!line.matches(pattern)) {
-            println(BAD_INPUT)
+            ioMethod.writeln(BAD_INPUT)
             continue
         }
 
         val (a, b, operation) = Expression.parse(line)
 
-        println(operation(a, b).presentInRadix(radix))
+        ioMethod.writeln(operation(a, b).presentInRadix(radix))
     }
 }
 
